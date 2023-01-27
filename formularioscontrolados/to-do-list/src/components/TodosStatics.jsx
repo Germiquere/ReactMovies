@@ -1,12 +1,19 @@
-const TodosStatics = ({ name }) => {
+import ToDo from "./toDo";
+const TodosStatics = ({ toDos, deleteTarea, actualizarEstado }) => {
   return (
-    <div>
-      <h2>ToDos</h2>
-      <ul>
-        {name.map((e) => (
-          <li key={e.id}>{e.title}</li>
+    <div className="mt-4 text-center">
+      <h2 className="mb-5">Mis Notas</h2>
+      <div>
+        {toDos.map((e) => (
+          <ToDo
+            key={e.id}
+            toDo={e}
+            deleteTarea={deleteTarea}
+            actualizarEstado={actualizarEstado}
+          ></ToDo>
         ))}
-      </ul>
+      </div>
+      {toDos.length === 0 && <p className="text-center">No hay notas</p>}
     </div>
   );
 };

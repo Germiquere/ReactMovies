@@ -13,10 +13,6 @@ const Formulario = ({ nuevaTarea }) => {
     state: "pendiente",
     priority: true,
   });
-  const objeto = {
-    id: 5,
-    title: "holamanola",
-  };
   // con el destructuring lo que hago es facilitarme y no tener que poner al querer usar por ejemplo el title toDo.title. solamente coloco title y ya funciona.
   const { title, description, state, priority } = toDo;
 
@@ -31,8 +27,21 @@ const Formulario = ({ nuevaTarea }) => {
         // text: "Tienes que llenar todos los campos",
       });
     }
-    console.log(toDo);
-    nuevaTarea(objeto);
+    nuevaTarea({
+      id: Date.now(),
+      ...toDo,
+      //  hacer lo que esta abajo es lo mismo que lo que como esta hecho
+      //  state: state === 'completado' ? true : false,
+      state: state === "completado",
+      // esta linea de codigo ya deja verdadero o falso
+    });
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Se agrego una nueva tareas ",
+      showConfirmButton: false,
+      timer: 700,
+    });
   };
   //   los checkboxs no funcionan con esta forma de hacerlo porque no usan el value sino que usan el checked
   //   por eso hay que usar el if y preguntar si el type es value o checkbox
@@ -47,7 +56,7 @@ const Formulario = ({ nuevaTarea }) => {
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Ingrese una tarea"
+        placeholder="Titulo"
         className="form-control mb-2"
         name="title"
         value={toDo.title}
@@ -57,7 +66,7 @@ const Formulario = ({ nuevaTarea }) => {
       <textarea
         name="description"
         className="form-control mb-2"
-        placeholder="Ingrese una descripcion"
+        placeholder="Descripcion"
         value={toDo.description}
         // onChange={(e) => setToDo({ ...toDo, description: e.target.value })}
         onChange={handleChange}
@@ -71,7 +80,7 @@ const Formulario = ({ nuevaTarea }) => {
           checked={toDo.priority}
           onChange={handleChange}
         />
-        <label htmlFor="inputCheck">Dar Prioridad</label>
+        <label htmlFor="inputCheck">Importante</label>
       </div>
       <select
         name="state"
@@ -84,7 +93,7 @@ const Formulario = ({ nuevaTarea }) => {
         <option value="completado">Completado</option>
       </select>
       <button type="submit" className="btn btn-primary">
-        Agregar
+        Crear Nota
       </button>
     </form>
   );
